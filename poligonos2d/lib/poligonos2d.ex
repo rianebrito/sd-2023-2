@@ -26,6 +26,14 @@ defmodule SD do
 
       %Poligono{poligono | pontos: pontos_transladados}
     end
+    
+def reflexao_temporaria(poligono) do
+      pontos_refletidos = Enum.map(poligono.pontos, fn ponto ->
+        %Ponto{ponto | x: -ponto.x, y: -ponto.y}
+      end)
+
+      %Poligono{poligono | pontos: pontos_refletidos}
+    end
 
     def adicionar_translacao(poligono) do
       IO.puts("Digite os valores para a translação:")
@@ -37,7 +45,15 @@ defmodule SD do
       IO.puts("Polígono transladado temporariamente:")
       IO.inspect(poligono_transladado)
 
-      poligono
+      poligono_transladado
+    end
+     def adicionar_reflexao(poligono) do
+      poligono_refletido = reflexao_temporaria(poligono)
+
+      IO.puts("Polígono refletido temporariamente:")
+      IO.inspect(poligono_refletido)
+
+      poligono_refletido
     end
   end
 
@@ -63,7 +79,8 @@ defmodule SD do
         if poligono != nil do
           IO.puts("Escolha um movimento:")
           IO.puts("1. Translação")
-          IO.puts("2. Voltar")
+          IO.puts("2. Reflexão")
+          IO.puts("3. Voltar")
 
           case String.trim(IO.gets("> ")) do
             "1" ->
@@ -71,6 +88,10 @@ defmodule SD do
               loop(poligono)
 
             "2" ->
+              poligono = Poligono.adicionar_reflexao(poligono)
+              loop(poligono)
+
+             "3" ->
               loop(poligono)
 
             _ ->
